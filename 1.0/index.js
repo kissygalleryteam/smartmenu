@@ -38,6 +38,7 @@ KISSY.add(function (S, Node,Base) {
 			
 			var self = this,
 				trigger = $(self.get("trigger")),
+				triggerType = self.get("triggerType"),
 				items = $(self.get("items")),
 				hideMenu = function(){
 					self.hide();
@@ -47,7 +48,7 @@ KISSY.add(function (S, Node,Base) {
 			self.set("trigger",trigger);
 
 			//trigger事件
-			trigger.on(self.get("triggerType"),function(ev){
+			trigger.on(triggerType,function(ev){
 				ev.halt();
 				self.toggle();
 			});
@@ -55,9 +56,9 @@ KISSY.add(function (S, Node,Base) {
 			//点击空白处隐藏菜单
 			self.on('afterVisibleChange', function(ev){
 				if(ev.newVal===true){
-					$(document).on("click",hideMenu);
+					$(document).on(triggerType,hideMenu);
 				}else{
-					$(document).detach("click",hideMenu);
+					$(document).detach(triggerType,hideMenu);
 				}
 			});
 		},
@@ -136,26 +137,29 @@ KISSY.add(function (S, Node,Base) {
 			self.set("visible",true);
 			self.fire("show");
 			
-			items.each(function(item,i){
-				//重置items,可能出现item大小不一致的情况
-				item.css({
-					left:center.x-item.width()/2,
-					top:center.y-item.height()/2,
-					opacity:0	
+			//bug
+			S.later(function(){
+				items.each(function(item,i){
+					//重置items,可能出现item大小不一致的情况
+					item.css({
+						left:center.x-item.width()/2,
+						top:center.y-item.height()/2,
+						opacity:0	
+					});
+					//可以实现逐个展示菜单的效果
+					S.later((function(item,i){
+						return function(){
+							//开始动画
+							var xy = circle(center.x, center.y, distance, startDeg+intervalDeg*i, direction);
+							item.show().animate({
+								left:xy.x-item.width()/2,
+								top:xy.y-item.height()/2,
+								opacity:1
+							},duration,easing,function(){});
+						};
+					})(item,i),anim*i);
 				});
-				//可以实现逐个展示菜单的效果
-				S.later((function(item,i){
-					return function(){
-						//开始动画
-						var xy = circle(center.x, center.y, distance, startDeg+intervalDeg*i, direction);
-						item.show().animate({
-							left:xy.x-item.width()/2,
-							top:xy.y-item.height()/2,
-							opacity:1
-						},duration,easing,function(){});
-					};
-				})(item,i),anim*i);
-			});
+			},100);
 		},
 		
 		//隐藏菜单，show的逆操作
@@ -170,19 +174,21 @@ KISSY.add(function (S, Node,Base) {
 			items.stop(true);
 			self.set("visible",false);
 			self.fire("hide");
-			items.each(function(item,index){
-				S.later((function(item){
-					return function(){
-						item.animate({
-							left:center.x-item.width()/2,
-							top:center.y-item.height()/2,
-							opacity:0
-						},duration,easing,function(){
-							item.hide();
-						});
-					};
-				})(item),anim*index);
-			});
+			S.later(function(){
+				items.each(function(item,index){
+					S.later((function(item){
+						return function(){
+							item.animate({
+								left:center.x-item.width()/2,
+								top:center.y-item.height()/2,
+								opacity:0
+							},duration,easing,function(){
+								item.hide();
+							});
+						};
+					})(item),anim*index);
+				});
+			},100);
 		},
 		
 		//显示，隐藏
@@ -252,8 +258,8 @@ KISSY.add(function (S, Node,Base) {
 		},
 		//为了也能适应pc机
 		triggerType:{
-			//value:(S.UA.android||S.UA.ios)?"tap":"click"
-			value:"tap click"
+			//Node.Gesture.tap
+			value: ('ontouchstart' in document.documentElement)?"tap":"click"
 		},
 		//是否显示
         visible: {
