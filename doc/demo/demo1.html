@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="format-detection" content="telephone=no"/>
+    <title>demo标题</title>
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy.js" charset="utf-8"></script>
+	<script src="src/1k/1k.js"></script>
+	<script src="src/1k/highlight.js"></script>
+	<script>
+		var S = KISSY;
+		if (S.Config.debug) {
+			var srcPath = "../../../";
+			S.config({
+				packages:[
+					{
+						name:"kg",
+						path:srcPath,
+						charset:"utf-8",
+						ignorePackageNameInUri:true
+					}
+				]
+			});
+		}
+		S.ready(function(){
+			$1k.highlight.init({    //组件初始化
+				skin:'crm',//默认皮肤
+				edit:true,//开启编辑运行
+				JsRequire:''//导入js
+			});
+		});
+	</script>
+</head>
+	<style>
+		body{
+			margin:0 2em;
+			font-family:'Microsoft YaHei';
+		}
+		h2 {
+			padding-bottom:10px;
+			border-bottom:1px solid #ccc;
+		}
+
+		
+		.item, .demo2item{
+			width:50px;
+			height:50px;
+			line-height:50px;
+			overflow:hidden;
+			border-radius:50px;
+			text-align:center;
+			background:#000;
+			color:#fff;
+		}
+		.item,.demo2item a{
+			color:#fff;
+			text-decoration:none;
+			font-size:12px;
+		}
+		
+	</style>
+<body>
+
+
+	<h2>从页面已有的节点中构造</h2>
+
+	<p>hi,你可以使用移动设别访问这个站点哦</p>
+	<p>smartmenu非常灵活，几乎所有你想配置的项目都能配置，<button id="J_demo1">试试看</button></p>
+	<div id="submenu" style="display:none">
+		<a target="_blank" href="http://www.taobao.com">淘宝</a>
+		<a target="_blank" href="http://www.alipay.com">支付宝</a>
+		<a target="_blank" href="http://www.tmall.com">天猫</a>
+		<a target="_blank" href="http://ju.taobao.com">聚划算</a>
+		<a target="_blank" href="http://www.etao.com">一淘</a>
+		<a target="_blank" href="http://www.1688.com">1688</a>
+	</div>
+
+
+<script>
+    S.use('kg/smartmenu/2.0.0/index', function (S, Smartmenu) {
+		var $=S.all;
+		var evt = ('ontouchstart' in document.documentElement)?"tap":"click";
+		var demo1 = new Smartmenu({
+			trigger:"#J_demo1",
+			//从已有的节点中构造菜单项
+			items:$("#submenu a"),
+			//可以给菜单项增加一个特殊的样式
+			itemCls:"item",
+			//菜单离圆心的距离
+			distance:2.0.0,
+			//每个菜单之间的间隔（度）
+			intervalDeg:60
+		});
+		
+			//渲染之后绑定事件才有效
+		demo1.on("afterRenderUI", function(){
+			demo1.get("items").on(evt, function(ev){
+				ev.halt();
+				alert($(ev.target).attr("href"));
+				console.log(ev.target);
+			})
+		})
+
+    })
+</script>
+
+
+
+<p>html代码</p>
+<textarea class="lang-html">
+	<p>HI</p>
+	<p>
+		smartmenu非常灵活，几乎所有你想配置的项目都能配置，<button id="J_demo1">试试看</button>
+	</p>
+	<div id="submenu" style="display:none">
+		<a target="_blank" href="http://www.taobao.com">淘宝</a>
+		<a target="_blank" href="http://www.alipay.com">支付宝</a>
+		<a target="_blank" href="http://www.tmall.com">天猫</a>
+		<a target="_blank" href="http://ju.taobao.com">聚划算</a>
+		<a target="_blank" href="http://www.etao.com">一淘</a>
+		<a target="_blank" href="http://www.1688.com">1688</a>
+	</div>
+</textarea>
+
+<p>js代码</p>
+<textarea class="lang-js">
+    S.use('kg/smartmenu/2.0.0/index', function (S, Smartmenu) {
+		var $=S.all;
+		var demo1 = new Smartmenu({
+			trigger:"#J_demo1",
+			//菜单项从已有的节点中构造
+			items:$("#submenu a"),
+			itemCls:"item",
+			distance:2.0.0,
+			intervalDeg:60,
+			path:false
+		});
+		demo1.get("items").on("click", function(ev){
+			console.log(ev.target);
+		})
+    })
+</textarea>
+
+
+
+
+
+
+
+
+</body>
+</html>
