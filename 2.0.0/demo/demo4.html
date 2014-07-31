@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="format-detection" content="telephone=no"/>
+    <title>demo标题</title>
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy.js" charset="utf-8"></script>
+	<script src="src/1k/1k.js"></script>
+	<script src="src/1k/highlight.js"></script>
+	<script>
+		var S = KISSY;
+		if (S.Config.debug) {
+			var srcPath = "../../../";
+			S.config({
+				packages:[
+					{
+						name:"kg",
+						path:srcPath,
+						charset:"utf-8",
+						ignorePackageNameInUri:true
+					}
+				]
+			});
+		}
+		S.ready(function(){
+			$1k.highlight.init({    //组件初始化
+				skin:'crm',//默认皮肤
+				edit:true,//开启编辑运行
+				JsRequire:''//导入js
+			});
+		});
+	</script>
+</head>
+	<style>
+		body{
+			margin:0 2em;
+			font-family:'Microsoft YaHei';
+		}
+		h2 {
+			padding-bottom:10px;
+			border-bottom:1px solid #ccc;
+		}
+
+		
+		.item, .demo2item{
+			width:50px;
+			height:50px;
+			line-height:50px;
+			overflow:hidden;
+			border-radius:50px;
+			text-align:center;
+			background:#000;
+			color:#fff;
+		}
+		.item,.demo2item a{
+			color:#fff;
+			text-decoration:none;
+			font-size:12px;
+		}
+		
+		article {
+			width:600px;
+			margin:20px 0;
+			padding:10px;
+			border:1px solid #ccc;
+		}
+		article header{
+			padding-bottom:10px;
+			font-weight:bold;
+			border-bottom:1px solid #ccc;
+		}
+		article .content{
+			padding-top:10px;
+		}
+		article footer{
+			text-align:right;
+		}
+	</style>
+<body>
+
+
+	
+	<article>
+		<header>阿里集团联手十大快递公司 助力中国智能骨干网</header>
+		<div class="content">5月30日，阿里巴巴集团在北京京交会期间宣布，与中国邮政集团、中国邮政EMS、申通、圆通、韵达、中通、顺丰、汇通、天天、宅急送等十大公司合作，以物流数据打通为基础，进一步探索针对消费者的物流产品和服务。当天，阿里集团旗下网站天猫与中国邮政EMS共同启动覆盖全国31省的货到付款服务。同时，天猫联手顺丰在78个城市开通预约配送服务。<div>
+		<footer><a href="#" class="J_opt">操作3</a></footer>
+	</article>
+
+	<article>
+		<header>阿里集团联手十大快递公司 助力中国智能骨干网</header>
+		<div class="content">5月30日，阿里巴巴集团在北京京交会期间宣布，与中国邮政集团、中国邮政EMS、申通、圆通、韵达、中通、顺丰、汇通、天天、宅急送等十大公司合作，以物流数据打通为基础，进一步探索针对消费者的物流产品和服务。当天，阿里集团旗下网站天猫与中国邮政EMS共同启动覆盖全国31省的货到付款服务。同时，天猫联手顺丰在78个城市开通预约配送服务。<div>
+		<footer><a href="#" class="J_opt">操作2</a></footer>
+	</article>
+	
+	<article>
+		<header>阿里集团联手十大快递公司 助力中国智能骨干网</header>
+		<div class="content">5月30日，阿里巴巴集团在北京京交会期间宣布，与中国邮政集团、中国邮政EMS、申通、圆通、韵达、中通、顺丰、汇通、天天、宅急送等十大公司合作，以物流数据打通为基础，进一步探索针对消费者的物流产品和服务。当天，阿里集团旗下网站天猫与中国邮政EMS共同启动覆盖全国31省的货到付款服务。同时，天猫联手顺丰在78个城市开通预约配送服务。<div>
+		<footer><a href="#" class="J_opt">操作1</a></footer>
+	</article>
+
+
+
+	
+	
+
+<script>
+	var evt = ('ontouchstart' in document.documentElement)?"tap":"click";
+
+    S.use('kg/smartmenu/2.0.0/index', function (S, Smartmenu) {
+		var $=S.all;
+		var currentItem = null;
+		var demo1 = new Smartmenu({
+			//trigger:"#demo1",
+			items:['<a href="#" style="background-color:#2d89ef">编辑</a>','<a href="#" style="background:#00a300;">删除</a>','<a href="#" style="background:#ffc40d;">分享</a>'],
+			//可以给菜单项增加一个特殊的样式
+			itemCls:"item",
+			//菜单离圆心的距离
+			distance:2.0.0,
+			//每个菜单之间的间隔（度）
+			intervalDeg:60
+		});
+		
+		$(".J_opt").on(evt, function(ev){
+			ev.halt();
+			currentItem = $(this);
+			demo1.set("trigger",currentItem);
+			demo1.show();
+		});
+		
+			//渲染之后绑定事件才有效
+		demo1.on("afterRenderUI", function(){
+			demo1.get("items").on(evt, function(ev){
+				ev.halt();
+				alert(currentItem.text());
+				demo1.hide();
+			})
+		})
+		
+
+    })
+</script>
+
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
